@@ -496,7 +496,7 @@
       
       <button onclick="openStoryModal('nouveautes')" class="flex flex-col items-center gap-1.5 group cursor-pointer shrink-0">
         <div class="story-ring rounded-full transition group-hover:scale-105 duration-300">
-          <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-white p-0.5 overflow-hidden">
+          <div class="w-14 h-14 sm:w-14 sm:h-14 rounded-full bg-white p-0.5 overflow-hidden">
             <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=200&q=80" alt="Nouveautés" class="w-full h-full object-cover rounded-full">
           </div>
         </div>
@@ -2458,12 +2458,12 @@
         backdrop.classList.remove("hidden");
         setTimeout(() => {
           backdrop.classList.remove("opacity-0");
-          drawer.classList.remove("-translate-x-full");
+          drawer.classList.remove("-translate-x-full"); drawer.classList.add("translate-x-0");
         }, 15);
         document.body.style.overflow = "hidden";
       } else {
         // CLOSE DRAWER
-        drawer.classList.add("-translate-x-full");
+        drawer.classList.remove("translate-x-0"); drawer.classList.add("-translate-x-full");
         backdrop.classList.add("opacity-0");
         setTimeout(() => {
           backdrop.classList.add("hidden");
