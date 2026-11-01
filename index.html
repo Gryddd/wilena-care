@@ -222,8 +222,17 @@
     <!-- Étage 1 : Marque Royale Centrale en Pleine Épure -->
     <div class="container mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
       
-      <!-- Gauche : Espace d'Épure Totale (Laisse le logo régner seul au centre) -->
-      <div class="w-12 sm:w-1/4 shrink-0"></div>
+      <!-- Gauche : Tirets de Menu Haute Couture (Mobile & Raccourci Découverte) -->
+      <div class="w-16 sm:w-1/4 shrink-0 flex items-center justify-start">
+        <button onclick="toggleMobileMenu()" id="mobileMenuBtn" aria-label="Ouvrir le Menu Navigation" class="flex items-center gap-2 py-2 px-1 text-gray-800 hover:text-[#A18292] focus:outline-none transition group cursor-pointer">
+          <div class="w-6 flex flex-col justify-center items-start gap-1.5 py-1">
+            <span class="w-6 h-0.5 bg-gray-900 rounded-full transition-all duration-300 group-hover:bg-[#A18292]"></span>
+            <span class="w-4 h-0.5 bg-gray-900 rounded-full transition-all duration-300 group-hover:w-6 group-hover:bg-[#A18292]"></span>
+            <span class="w-5 h-0.5 bg-gray-900 rounded-full transition-all duration-300 group-hover:bg-[#A18292]"></span>
+          </div>
+          <span class="text-[10px] font-bold tracking-widest uppercase hidden sm:inline text-gray-700 group-hover:text-[#A18292]">MENU</span>
+        </button>
+      </div>
 
       <!-- Centre : LE VRAI LOGO RÉEL OFFICIEL DANS SES COULEURS INITIALES (NOIR INITIAL & MAUVE) -->
       <div class="flex-1 text-center min-w-0 px-1">
@@ -287,9 +296,7 @@
           <span class="cart-count-badge bg-white text-wilena-dusty-dark font-extrabold text-[11px] h-5 w-5 rounded-full flex items-center justify-center">0</span>
         </button>
 
-        <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-gray-700">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-        </button>
+        
 
       </div>
     </div>
@@ -335,27 +342,153 @@
   </header>
 
   <!-- Mobile Drawer Partagé -->
-  <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-wilena-dusty/20 px-4 py-4 space-y-3 text-sm font-medium">
-    <input type="text" onkeyup="searchProductsInput(this.value)" placeholder="Rechercher un soin..." class="w-full text-xs bg-wilena-soft-pink border border-wilena-dusty/30 rounded-lg p-2.5 mb-2 focus:outline-none">
-    <a href="#catalogue" onclick="navigateCategory('tous'); toggleMobileMenu();" class="block py-1 hover:text-wilena-dusty">Tous les Produits</a>
-    <a href="#shop-the-look" onclick="toggleMobileMenu()" class="block py-1 font-bold text-wilena-dusty-dark">✨ Studio Nuancier Interactif</a>
-    <a href="#transformation" onclick="toggleMobileMenu()" class="block py-1 hover:text-wilena-dusty">Avant / Après Soin Éclat</a>
-    <a href="#catalogue" onclick="navigateCategory('visage'); toggleMobileMenu();" class="block py-1 hover:text-wilena-dusty">Soins Visage</a>
-    <a href="#catalogue" onclick="navigateCategory('maquillage'); toggleMobileMenu();" class="block py-1 hover:text-wilena-dusty">Maquillage</a>
-    <a href="#diagnostic" onclick="toggleMobileMenu()" class="block py-1 font-bold text-wilena-dusty">Diagnostic Routine Beauté</a>
-    <a href="#boutique" onclick="toggleMobileMenu()" class="block py-1 hover:text-wilena-dusty">📍 Boutique Salé Al Jadida</a>
-  </div>
+  <!-- TIRET DE MENU & DRAWER MOBILE HAUTE COUTURE (SLIDE-IN LATÉRAL SOPHISTIQUÉ) -->
+  <div id="mobileMenuBackdrop" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
 
-  <!-- STORIES BUBBLES -->
-  <section class="bg-white py-4 border-b border-gray-100 overflow-x-auto">
-    <div class="container mx-auto px-4 flex items-center justify-start sm:justify-center gap-6 sm:gap-8 min-w-max">
+  <div id="mobileMenuDrawer" class="fixed top-0 left-0 bottom-0 w-[88%] max-w-sm bg-white z-50 shadow-2xl flex flex-col justify-between -translate-x-full transition-transform duration-300 ease-out overflow-hidden">
+    
+    <!-- En-tête du Drawer avec Logo & Fermeture -->
+    <div class="p-5 border-b border-gray-100 flex items-center justify-between bg-gradient-to-r from-[#FAF6F3] via-white to-[#FAF6F3]">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-white flex items-center justify-center p-1 border border-[#A18292]/30 shadow-xs">
+          <img src="data:image/png;base64,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" alt="Wilena Care" class="w-full h-full object-contain">
+        </div>
+        <div>
+          <span class="font-serif text-sm font-bold tracking-widest text-gray-900 block leading-tight">WILENA CARE</span>
+          <span class="text-[9px] text-[#A18292] font-semibold tracking-wider uppercase block">✦ Beauty Store by Twins ✦</span>
+        </div>
+      </div>
+
+      <button onclick="toggleMobileMenu()" aria-label="Fermer le menu" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-sm flex items-center justify-center transition cursor-pointer">
+        ✕
+      </button>
+    </div>
+
+    <!-- Corps du Menu (Défilement fluide) -->
+    <div class="flex-1 overflow-y-auto p-5 space-y-6">
       
-      <button onclick="openStoryModal('nouveautes')" class="flex flex-col items-center gap-1.5 group cursor-pointer">
-        <div class="story-ring rounded-full transition group-hover:scale-105 duration-300">
-          <div class="w-14 h-14 rounded-full bg-white p-0.5 overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=200&q=80" alt="Nouveautés" class="w-full h-full object-cover rounded-full">
+      <!-- Barre de Recherche Rapide Mobile -->
+      <div class="relative">
+        <input type="text" onkeyup="searchProductsInput(this.value)" placeholder="Rechercher un soin, une teinte..." class="w-full text-xs bg-gray-50 border border-gray-200 rounded-xl py-2.5 pl-9 pr-3 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#A18292] focus:bg-white transition">
+        <span class="absolute left-3 top-2.5 text-gray-400 text-sm">🔍</span>
+      </div>
+
+      <!-- BLOC 1 : LES EXPÉRIENCES INTERACTIVES (HAUTE SÉDUCTION) -->
+      <div class="space-y-1">
+        <div class="text-[10px] font-extrabold tracking-widest uppercase text-[#A18292] px-2 mb-2">
+          ✦ Expériences Signatures
+        </div>
+        
+        <a href="#shop-the-look" onclick="toggleMobileMenu()" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-[#FAF5F2] transition group">
+          <div class="flex items-center gap-3">
+            <span class="text-base">💄</span>
+            <span class="text-xs font-bold text-gray-900 group-hover:text-[#A18292]">Studio Nuancier Lèvres</span>
+          </div>
+          <span class="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#A18292] text-white">4 Teintes</span>
+        </a>
+
+        <a href="#coffret-twins" onclick="toggleMobileMenu()" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-[#FAF5F2] transition group">
+          <div class="flex items-center gap-3">
+            <span class="text-base">🎁</span>
+            <span class="text-xs font-bold text-gray-900 group-hover:text-[#A18292]">Atelier Coffret Sur-Mesure</span>
+          </div>
+          <span class="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-600 text-white">-100 DH</span>
+        </a>
+
+        <a href="#transformation" onclick="toggleMobileMenu()" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-[#FAF5F2] transition group">
+          <div class="flex items-center gap-3">
+            <span class="text-base">✨</span>
+            <span class="text-xs font-bold text-gray-900 group-hover:text-[#A18292]">Avant / Après Soin Éclat</span>
+          </div>
+          <span class="text-[9px] text-gray-400 font-semibold">14 Jours</span>
+        </a>
+
+        <a href="#diagnostic" onclick="toggleMobileMenu()" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-[#FAF5F2] transition group">
+          <div class="flex items-center gap-3">
+            <span class="text-base">🧪</span>
+            <span class="text-xs font-bold text-gray-900 group-hover:text-[#A18292]">Diagnostic Cutané en 2 Clics</span>
+          </div>
+          <span class="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">Gratuit</span>
+        </a>
+      </div>
+
+      <!-- BLOC 2 : LE CATALOGUE PRESTIGE -->
+      <div class="space-y-1 border-t border-gray-100 pt-5">
+        <div class="text-[10px] font-extrabold tracking-widest uppercase text-[#A18292] px-2 mb-2">
+          ✦ Catalogue &amp; Collections
+        </div>
+
+        <a href="#catalogue" onclick="navigateCategory('tous'); toggleMobileMenu();" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-gray-50 text-xs font-medium text-gray-800 transition">
+          <span>Tous les Produits</span>
+          <span class="text-gray-400 text-xs">→</span>
+        </a>
+
+        <a href="#catalogue" onclick="navigateCategory('visage'); toggleMobileMenu();" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-gray-50 text-xs font-medium text-gray-800 transition">
+          <span>🧴 Soins Visage &amp; Dermo-Cosmétique</span>
+          <span class="text-gray-400 text-xs">→</span>
+        </a>
+
+        <a href="#catalogue" onclick="navigateCategory('maquillage'); toggleMobileMenu();" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-gray-50 text-xs font-medium text-gray-800 transition">
+          <span>💄 Maquillage &amp; Lèvres</span>
+          <span class="text-gray-400 text-xs">→</span>
+        </a>
+
+        <a href="#catalogue" onclick="navigateCategory('naturel'); toggleMobileMenu();" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-gray-50 text-xs font-medium text-gray-800 transition">
+          <span>🌿 Trésors Bio du Maroc (Argan pur)</span>
+          <span class="text-gray-400 text-xs">→</span>
+        </a>
+
+        <a href="#catalogue" onclick="navigateCategory('cheveux'); toggleMobileMenu();" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-gray-50 text-xs font-medium text-gray-800 transition">
+          <span>💇‍♀️ Cheveux &amp; Kératine</span>
+          <span class="text-gray-400 text-xs">→</span>
+        </a>
+
+        <a href="#catalogue" onclick="navigateCategory('parfums'); toggleMobileMenu();" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-gray-50 text-xs font-medium text-gray-800 transition">
+          <span>🌸 Brumes &amp; Parfums</span>
+          <span class="text-gray-400 text-xs">→</span>
+        </a>
+      </div>
+
+      <!-- BLOC 3 : LE SHOWROOM SALÉ AL JADIDA -->
+      <div class="border-t border-gray-100 pt-5 space-y-2.5">
+        <div class="text-[10px] font-extrabold tracking-widest uppercase text-[#A18292] px-2 mb-1">
+          ✦ Boutique Physique &amp; Accès
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-[#FDF8F5] border border-[#A18292]/20 space-y-2">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            <span class="text-[11px] font-bold text-emerald-800">Showroom Ouvert (jusqu'à 21h30)</span>
+          </div>
+          <p class="text-[11px] text-gray-700 font-semibold leading-snug">
+            Boutique N° 1, Immeuble 128, Lotissement Al Maâmora, Salé Al Jadida
+          </p>
+          <div class="grid grid-cols-2 gap-1.5 pt-1">
+            <a href="https://maps.google.com/?q=Sale+Al+Jadida+Maamora" target="_blank" class="py-2 px-2 bg-white rounded-lg text-center font-bold text-[10px] text-gray-800 border border-gray-200 shadow-xs flex items-center justify-center gap-1">
+              <span>🗺️ Maps</span>
+            </a>
+            <a href="https://waze.com/ul?q=Sale+Al+Jadida+Maamora" target="_blank" class="py-2 px-2 bg-cyan-600 text-white rounded-lg text-center font-bold text-[10px] shadow-xs flex items-center justify-center gap-1">
+              <span>🚙 Waze</span>
+            </a>
           </div>
         </div>
+      </div>
+
+    </div>
+
+    <!-- Bas du Drawer : Contact & WhatsApp -->
+    <div class="p-4 border-t border-gray-100 bg-[#FAF7F5] space-y-2">
+      <a href="https://wa.me/212715666743" target="_blank" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold tracking-wide transition shadow flex items-center justify-center gap-2">
+        <span>💬 Contacter sur WhatsApp (07 15 66 67 43)</span>
+      </a>
+      <div class="flex items-center justify-between text-[10px] text-gray-500 px-1 pt-1">
+        <span>📍 Salé Al Jadida</span>
+        <span class="font-semibold text-gray-700">@wilenacarebytwins</span>
+        <span>⚡ Retrait 30 min</span>
+      </div>
+    </div>
+
+  </div>
         <span class="text-[11px] font-bold text-gray-700 group-hover:text-wilena-dusty">✨ Nouveautés</span>
       </button>
 
@@ -2304,7 +2437,28 @@
     }
 
     function toggleMobileMenu() {
-      document.getElementById("mobileMenu").classList.toggle("hidden");
+      const drawer = document.getElementById("mobileMenuDrawer");
+      const backdrop = document.getElementById("mobileMenuBackdrop");
+      if (!drawer || !backdrop) return;
+
+      const isClosed = drawer.classList.contains("-translate-x-full");
+      if (isClosed) {
+        // OPEN DRAWER
+        backdrop.classList.remove("hidden");
+        setTimeout(() => {
+          backdrop.classList.remove("opacity-0");
+          drawer.classList.remove("-translate-x-full");
+        }, 15);
+        document.body.style.overflow = "hidden";
+      } else {
+        // CLOSE DRAWER
+        drawer.classList.add("-translate-x-full");
+        backdrop.classList.add("opacity-0");
+        setTimeout(() => {
+          backdrop.classList.add("hidden");
+        }, 300);
+        document.body.style.overflow = "";
+      }
     }
 
     function checkoutViaWhatsApp() {
@@ -2793,10 +2947,14 @@ Merci de me confirmer la livraison express à Salé/Rabat ou la préparation en 
 
   <!-- BARRE D'ACTION FLOTTANTE MOBILE HAUTE COUTURE (ACCÈS POUCE 1-CLIC) -->
   <div class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-200/80 px-3 py-2 flex items-center justify-around shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
-    <a href="#" class="flex flex-col items-center text-gray-700 hover:text-wilena-dusty text-[10px] font-medium transition">
-      <span class="text-base">🏠</span>
-      <span>Accueil</span>
-    </a>
+    <button onclick="toggleMobileMenu()" class="flex flex-col items-center text-gray-800 hover:text-[#A18292] text-[10px] font-medium transition cursor-pointer">
+      <div class="w-5 h-4 flex flex-col justify-center items-center gap-1 my-0.5">
+        <span class="w-4 h-0.5 bg-gray-800 rounded-full"></span>
+        <span class="w-3 h-0.5 bg-gray-800 rounded-full"></span>
+        <span class="w-3.5 h-0.5 bg-gray-800 rounded-full"></span>
+      </div>
+      <span class="font-bold">Menu</span>
+    </button>
     <a href="#diagnostic" class="flex flex-col items-center text-gray-700 hover:text-wilena-dusty text-[10px] font-medium transition">
       <span class="text-base">🧴</span>
       <span>Diagnostic</span>
